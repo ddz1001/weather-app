@@ -1,6 +1,6 @@
 package com.github.dantezitello.weatherapp.graphics;
 
-import org.jfree.chart.ChartColor;
+import com.github.dantezitello.weatherapp.weather.model.UnitType;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
@@ -30,7 +30,7 @@ public class ChartBuilder {
     private boolean compressRange;
 
     public ChartBuilder(String title) {
-        this(title, UnitType.CELCIUS);
+        this(title, UnitType.CELSIUS);
     }
 
     public ChartBuilder(String title, UnitType type) {

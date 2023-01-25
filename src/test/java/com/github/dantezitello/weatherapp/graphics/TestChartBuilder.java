@@ -1,5 +1,6 @@
 package com.github.dantezitello.weatherapp.graphics;
 
+import com.github.dantezitello.weatherapp.weather.model.UnitType;
 import org.jfree.chart.JFreeChart;
 import org.junit.jupiter.api.Test;
 
