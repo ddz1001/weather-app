@@ -6,14 +6,12 @@ public class CityInfo {
     String countryName;
     String countryCode;
     String administrativeRegion;
-    String administrativeCode;
 
-    public CityInfo(String cityName, String countryName, String countryCode, String administrativeRegion, String administrativeCode) {
+    public CityInfo(String cityName, String countryName, String countryCode, String administrativeRegion) {
         this.cityName = cityName;
         this.countryName = countryName;
         this.countryCode = countryCode;
         this.administrativeRegion = administrativeRegion;
-        this.administrativeCode = administrativeCode;
     }
 
     public String getCityName() {
@@ -30,9 +28,5 @@ public class CityInfo {
 
     public String getAdministrativeRegion() {
         return administrativeRegion;
-    }
-
-    public String getAdministrativeCode() {
-        return administrativeCode;
     }
 }

@@ -1,6 +1,8 @@
 package com.github.dantezitello.weatherapp.geolocation;
 
 import com.github.dantezitello.weatherapp.WeatherAPIConfig;
+import com.github.dantezitello.weatherapp.common.CityInfo;
+import com.github.dantezitello.weatherapp.common.GeographicCoordinates;
 import com.github.dantezitello.weatherapp.common.WeatherAPIException;
 import com.github.dantezitello.weatherapp.geolocation.model.GeolocationInfo;
 import com.github.dantezitello.weatherapp.geolocation.model.GeolocationModel;
@@ -27,15 +29,38 @@ public class GeolocationService {
     }
 
     public GeolocationResult findByCityName(String cityName) throws WeatherAPIException {
-        return null;
+        GeolocationInfo info = query( fetch(cityName), geo -> geo.getName().equalsIgnoreCase(cityName) ); //select first result
+        if(info == null) {
+            throw new WeatherAPIException(cityName + " was not found.");
+        }
+
+
+        return convert(info);
     }
 
     public GeolocationResult findByCityCountry(String cityName, String countryCode) throws WeatherAPIException {
-        return null;
+        GeolocationInfo info = query( fetch(cityName),
+                geo -> geo.getName().equalsIgnoreCase(cityName) && geo.getCountryCode().equalsIgnoreCase(countryCode)
+        );
+        if(info == null) {
+            throw new WeatherAPIException(cityName + " [country-code]:" + countryCode + " was not found.");
+        }
+
+        return convert(info);
     }
 
     public GeolocationResult findByCityCountryAdminRegion(String cityName, String countryCode, String administrativeRegion) throws WeatherAPIException {
-        return null;
+        GeolocationInfo info = query( fetch(cityName),
+                geo -> geo.getName().equalsIgnoreCase(cityName) && geo.getCountryCode().equalsIgnoreCase(countryCode) && geo.getAdministrativeRegion().equalsIgnoreCase(administrativeRegion)
+        );
+        if(info == null) {
+            throw new WeatherAPIException(cityName + " [country-code]:" + countryCode
+                    + " [admin-region]:" + administrativeRegion + " was not found.");
+        }
+
+
+
+        return convert(info);
     }
 
     private GeolocationInfo query(GeolocationModel model, Predicate<GeolocationInfo> predicate) {
@@ -55,6 +80,21 @@ public class GeolocationService {
                 .retrieve()
                 .bodyToMono( GeolocationModel.class )
                 .block();
+    }
+
+    private GeolocationResult convert(GeolocationInfo info) {
+        return new GeolocationResult(
+                new CityInfo(
+                        info.getName(),
+                        info.getCountryName(),
+                        info.getCountryCode(),
+                        info.getAdministrativeRegion()
+                ),
+                new GeographicCoordinates(
+                        info.getLatitude(),
+                        info.getLongitude()
+                )
+        );
     }
 
 
