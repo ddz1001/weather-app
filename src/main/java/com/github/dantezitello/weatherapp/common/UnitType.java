@@ -1,4 +1,4 @@
-package com.github.dantezitello.weatherapp.weather.model;
+package com.github.dantezitello.weatherapp.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

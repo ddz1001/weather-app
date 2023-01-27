@@ -1,4 +1,4 @@
-package com.github.dantezitello.weatherapp.weather;
+package com.github.dantezitello.weatherapp.common;
 
 import java.time.LocalDate;
 

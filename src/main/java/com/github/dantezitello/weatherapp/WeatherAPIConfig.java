@@ -10,6 +10,12 @@ public class WeatherAPIConfig {
     @Value("${meteo-api.history-url}")
     String weatherHistoryUrl;
 
+    @Value("${meteo-api.geolocator-url}")
+    String geolocationUrl;
+
+    @Value("100")
+    int cityQueryMax;
+
     public WeatherAPIConfig() {
     }
 
@@ -19,5 +25,21 @@ public class WeatherAPIConfig {
 
     public void setWeatherHistoryUrl(String weatherHistoryUrl) {
         this.weatherHistoryUrl = weatherHistoryUrl;
+    }
+
+    public String getGeolocationUrl() {
+        return geolocationUrl;
+    }
+
+    public void setGeolocationUrl(String geolocationUrl) {
+        this.geolocationUrl = geolocationUrl;
+    }
+
+    public int getCityQueryMax() {
+        return cityQueryMax;
+    }
+
+    public void setCityQueryMax(int cityQueryMax) {
+        this.cityQueryMax = cityQueryMax;
     }
 }

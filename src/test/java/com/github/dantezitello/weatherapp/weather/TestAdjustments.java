@@ -1,5 +1,6 @@
 package com.github.dantezitello.weatherapp.weather;
 
+import com.github.dantezitello.weatherapp.common.LocalDateRange;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

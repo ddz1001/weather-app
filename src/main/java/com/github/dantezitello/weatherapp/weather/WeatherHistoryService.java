@@ -2,17 +2,15 @@ package com.github.dantezitello.weatherapp.weather;
 
 import com.github.dantezitello.weatherapp.WeatherAPIConfig;
 import com.github.dantezitello.weatherapp.common.GeographicCoordinates;
+import com.github.dantezitello.weatherapp.common.LocalDateRange;
 import com.github.dantezitello.weatherapp.common.WeatherAPIException;
 import com.github.dantezitello.weatherapp.weather.model.WeatherHistoryModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.net.URI;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 

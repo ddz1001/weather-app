@@ -2,7 +2,7 @@ package com.github.dantezitello.weatherapp.weather;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.dantezitello.weatherapp.weather.model.UnitType;
+import com.github.dantezitello.weatherapp.common.UnitType;
 import com.github.dantezitello.weatherapp.weather.model.WeatherHistoryModel;
 import org.junit.jupiter.api.Test;
 

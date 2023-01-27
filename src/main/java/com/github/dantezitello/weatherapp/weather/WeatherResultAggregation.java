@@ -1,5 +1,7 @@
 package com.github.dantezitello.weatherapp.weather;
 
+import com.github.dantezitello.weatherapp.common.LocalDateRange;
+import com.github.dantezitello.weatherapp.common.RecordedAverage;
 import com.github.dantezitello.weatherapp.weather.model.DailyTemperatureData;
 import com.github.dantezitello.weatherapp.weather.model.WeatherHistoryModel;
 
@@ -24,10 +26,10 @@ public class WeatherResultAggregation {
         DailyTemperatureData data = model.getDailyTemperatureData();
         List<LocalDate> dates = data.getTimeEntries();
         List<BigDecimal> temps = data.getTemperatureEntries();
-        List<WeatherEntry> entries = result.getWeatherEntries();
+        List<RecordedAverage> entries = result.getWeatherEntries();
 
         for(int i = 0; i < dates.size(); i++) {
-            entries.add( new WeatherEntry( LocalDateRange.of(dates.get(i)), temps.get(i) ) );
+            entries.add( new RecordedAverage( LocalDateRange.of(dates.get(i)), temps.get(i), model.getUnitData().getUnitType() ) );
         }
 
         return result;
@@ -43,7 +45,7 @@ public class WeatherResultAggregation {
         DailyTemperatureData data = model.getDailyTemperatureData();
         List<LocalDate> dates = data.getTimeEntries();
         List<BigDecimal> temps = data.getTemperatureEntries();
-        List<WeatherEntry> entries = result.getWeatherEntries();
+        List<RecordedAverage> entries = result.getWeatherEntries();
 
 
 
@@ -57,7 +59,7 @@ public class WeatherResultAggregation {
             LocalDate cur = dates.get(i);
             if( cur.get(ISO_WEEK) != currentIsoWeek ) {
                 BigDecimal avg = accumulator.computeAverage();
-                entries.add(new WeatherEntry( LocalDateRange.from( start, end ), avg ) );
+                entries.add(new RecordedAverage( LocalDateRange.from( start, end ), avg, model.getUnitData().getUnitType() ) );
 
                 currentIsoWeek = cur.get(ISO_WEEK);
                 start = cur; end = cur;
@@ -66,7 +68,7 @@ public class WeatherResultAggregation {
                 accumulator.add(temps.get(i));
 
                 BigDecimal avg = accumulator.computeAverage();
-                entries.add(new WeatherEntry( LocalDateRange.from( start, cur ), avg ) );
+                entries.add(new RecordedAverage( LocalDateRange.from( start, cur ), avg, model.getUnitData().getUnitType() ) );
 
                 break;
             }
@@ -85,7 +87,7 @@ public class WeatherResultAggregation {
         DailyTemperatureData data = model.getDailyTemperatureData();
         List<LocalDate> dates = data.getTimeEntries();
         List<BigDecimal> temps = data.getTemperatureEntries();
-        List<WeatherEntry> entries = result.getWeatherEntries();
+        List<RecordedAverage> entries = result.getWeatherEntries();
 
         LocalDate start = dates.get(0);
         LocalDate end = dates.get(0);
@@ -97,7 +99,7 @@ public class WeatherResultAggregation {
             LocalDate cur = dates.get(i);
             if( cur.getMonth() != currentMonth ) {
                 BigDecimal avg = accumulator.computeAverage();
-                entries.add(new WeatherEntry( LocalDateRange.from( start, end ), avg ) );
+                entries.add(new RecordedAverage( LocalDateRange.from( start, end ), avg, model.getUnitData().getUnitType() ) );
 
                 currentMonth = cur.getMonth();
                 start = cur; end = cur;
@@ -106,7 +108,7 @@ public class WeatherResultAggregation {
                 accumulator.add(temps.get(i));
 
                 BigDecimal avg = accumulator.computeAverage();
-                entries.add(new WeatherEntry( LocalDateRange.from( start, cur ), avg ) );
+                entries.add(new RecordedAverage( LocalDateRange.from( start, cur ), avg, model.getUnitData().getUnitType() ) );
 
                 break;
             }
@@ -127,7 +129,7 @@ public class WeatherResultAggregation {
         DailyTemperatureData data = model.getDailyTemperatureData();
         List<LocalDate> dates = data.getTimeEntries();
         List<BigDecimal> temps = data.getTemperatureEntries();
-        List<WeatherEntry> entries = result.getWeatherEntries();
+        List<RecordedAverage> entries = result.getWeatherEntries();
 
         LocalDate start = dates.get(0);
         LocalDate end = dates.get(0);
@@ -139,7 +141,7 @@ public class WeatherResultAggregation {
             LocalDate cur = dates.get(i);
             if( cur.getYear() != currentYear ) {
                 BigDecimal avg = accumulator.computeAverage();
-                entries.add(new WeatherEntry( LocalDateRange.from( start, end ), avg ) );
+                entries.add(new RecordedAverage( LocalDateRange.from( start, end ), avg, model.getUnitData().getUnitType() ) );
 
                 currentYear = cur.getYear();
                 start = cur; end = cur;
@@ -148,7 +150,7 @@ public class WeatherResultAggregation {
                 accumulator.add(temps.get(i));
 
                 BigDecimal avg = accumulator.computeAverage();
-                entries.add(new WeatherEntry( LocalDateRange.from( start, cur ), avg ) );
+                entries.add(new RecordedAverage( LocalDateRange.from( start, cur ), avg, model.getUnitData().getUnitType() ) );
 
                 break;
             }

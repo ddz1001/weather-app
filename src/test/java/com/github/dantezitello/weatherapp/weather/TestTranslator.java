@@ -1,6 +1,7 @@
 package com.github.dantezitello.weatherapp.weather;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.dantezitello.weatherapp.common.RecordedAverage;
 import com.github.dantezitello.weatherapp.weather.model.WeatherHistoryModel;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,7 @@ public class TestTranslator {
         WeatherResultAggregation translator = new WeatherResultAggregation();
         WeatherHistoryResult result = translator.aggregateWeekly(model);
 
-        List<WeatherEntry> weatherEntryList = result.getWeatherEntries();
+        List<RecordedAverage> weatherEntryList = result.getWeatherEntries();
 
         assertEquals(14, weatherEntryList.size()); //14 total weeks
 
@@ -47,7 +48,7 @@ public class TestTranslator {
 
         WeatherResultAggregation translator = new WeatherResultAggregation();
         WeatherHistoryResult result = translator.aggregateMonthly(model);
-        List<WeatherEntry> weatherEntryList = result.getWeatherEntries();
+        List<RecordedAverage> weatherEntryList = result.getWeatherEntries();
 
         assertEquals(3, weatherEntryList.size());
 
@@ -72,7 +73,7 @@ public class TestTranslator {
 
         WeatherResultAggregation translator = new WeatherResultAggregation();
         WeatherHistoryResult result = translator.aggregateYearly(model);
-        List<WeatherEntry> weatherEntryList = result.getWeatherEntries();
+        List<RecordedAverage> weatherEntryList = result.getWeatherEntries();
 
         assertEquals(3, weatherEntryList.size());
 
