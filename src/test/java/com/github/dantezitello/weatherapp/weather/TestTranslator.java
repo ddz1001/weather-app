@@ -22,8 +22,8 @@ public class TestTranslator {
 
         WeatherHistoryModel model = mapper.readValue(json, WeatherHistoryModel.class);
 
-        WeatherResultTranslator translator = new WeatherResultTranslator();
-        WeatherHistoryResult result = translator.translateWeekly(model);
+        WeatherResultAggregation translator = new WeatherResultAggregation();
+        WeatherHistoryResult result = translator.aggregateWeekly(model);
 
         List<WeatherEntry> weatherEntryList = result.getWeatherEntries();
 
@@ -45,8 +45,8 @@ public class TestTranslator {
 
         WeatherHistoryModel model = mapper.readValue(json, WeatherHistoryModel.class);
 
-        WeatherResultTranslator translator = new WeatherResultTranslator();
-        WeatherHistoryResult result = translator.translateMonthly(model);
+        WeatherResultAggregation translator = new WeatherResultAggregation();
+        WeatherHistoryResult result = translator.aggregateMonthly(model);
         List<WeatherEntry> weatherEntryList = result.getWeatherEntries();
 
         assertEquals(3, weatherEntryList.size());
@@ -70,8 +70,8 @@ public class TestTranslator {
 
         WeatherHistoryModel model = mapper.readValue(json, WeatherHistoryModel.class);
 
-        WeatherResultTranslator translator = new WeatherResultTranslator();
-        WeatherHistoryResult result = translator.translateYearly(model);
+        WeatherResultAggregation translator = new WeatherResultAggregation();
+        WeatherHistoryResult result = translator.aggregateYearly(model);
         List<WeatherEntry> weatherEntryList = result.getWeatherEntries();
 
         assertEquals(3, weatherEntryList.size());

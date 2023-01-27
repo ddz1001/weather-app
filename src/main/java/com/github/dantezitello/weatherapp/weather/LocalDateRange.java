@@ -2,12 +2,12 @@ package com.github.dantezitello.weatherapp.weather;
 
 import java.time.LocalDate;
 
-public class WeatherInterval {
+public class LocalDateRange {
 
     private LocalDate start;
     private LocalDate end;
 
-    private WeatherInterval(LocalDate start, LocalDate end) {
+    private LocalDateRange(LocalDate start, LocalDate end) {
         this.start = start;
         this.end = end;
     }
@@ -26,12 +26,12 @@ public class WeatherInterval {
         return start == end;
     }
 
-    public static WeatherInterval of(LocalDate date) {
-        return new WeatherInterval(date, date);
+    public static LocalDateRange of(LocalDate date) {
+        return new LocalDateRange(date, date);
     }
 
-    public static WeatherInterval from(LocalDate start, LocalDate end) {
-        return new WeatherInterval(start, end);
+    public static LocalDateRange from(LocalDate start, LocalDate end) {
+        return new LocalDateRange(start, end);
     }
 
 }

@@ -4,15 +4,15 @@ import java.math.BigDecimal;
 
 public class WeatherEntry {
 
-    WeatherInterval interval;
+    LocalDateRange interval;
     BigDecimal temperature;
 
-    public WeatherEntry(WeatherInterval interval, BigDecimal highestTemperature) {
+    public WeatherEntry(LocalDateRange interval, BigDecimal highestTemperature) {
         this.interval = interval;
         this.temperature = highestTemperature;
     }
 
-    public WeatherInterval getInterval() {
+    public LocalDateRange getInterval() {
         return interval;
     }
 

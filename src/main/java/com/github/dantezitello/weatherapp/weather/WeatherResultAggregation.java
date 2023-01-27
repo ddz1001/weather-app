@@ -13,12 +13,12 @@ import java.time.temporal.TemporalField;
 import java.util.LinkedList;
 import java.util.List;
 
-public class WeatherResultTranslator {
+public class WeatherResultAggregation {
 
 
-    final TemporalField ISO_WEEK = IsoFields.WEEK_OF_WEEK_BASED_YEAR;
+    final static TemporalField ISO_WEEK = IsoFields.WEEK_OF_WEEK_BASED_YEAR;
 
-    public WeatherHistoryResult translateDaily(WeatherHistoryModel model) {
+    public static WeatherHistoryResult aggregateDaily(WeatherHistoryModel model) {
         //Here we just directly map one to one since there are no intervals
         WeatherHistoryResult result = new WeatherHistoryResult();
         DailyTemperatureData data = model.getDailyTemperatureData();
@@ -27,13 +27,13 @@ public class WeatherResultTranslator {
         List<WeatherEntry> entries = result.getWeatherEntries();
 
         for(int i = 0; i < dates.size(); i++) {
-            entries.add( new WeatherEntry( WeatherInterval.of(dates.get(i)), temps.get(i) ) );
+            entries.add( new WeatherEntry( LocalDateRange.of(dates.get(i)), temps.get(i) ) );
         }
 
         return result;
     }
 
-    public WeatherHistoryResult translateWeekly(WeatherHistoryModel model) {
+    public static WeatherHistoryResult aggregateWeekly(WeatherHistoryModel model) {
 
         //We need to aggregate the weekly averages
         //The range should start on the first day of a week, and the end range should be on the final day of a week
@@ -57,7 +57,7 @@ public class WeatherResultTranslator {
             LocalDate cur = dates.get(i);
             if( cur.get(ISO_WEEK) != currentIsoWeek ) {
                 BigDecimal avg = accumulator.computeAverage();
-                entries.add(new WeatherEntry( WeatherInterval.from( start, end ), avg ) );
+                entries.add(new WeatherEntry( LocalDateRange.from( start, end ), avg ) );
 
                 currentIsoWeek = cur.get(ISO_WEEK);
                 start = cur; end = cur;
@@ -66,7 +66,7 @@ public class WeatherResultTranslator {
                 accumulator.add(temps.get(i));
 
                 BigDecimal avg = accumulator.computeAverage();
-                entries.add(new WeatherEntry( WeatherInterval.from( start, cur ), avg ) );
+                entries.add(new WeatherEntry( LocalDateRange.from( start, cur ), avg ) );
 
                 break;
             }
@@ -80,7 +80,7 @@ public class WeatherResultTranslator {
         return result;
     }
 
-    public WeatherHistoryResult translateMonthly(WeatherHistoryModel model) {
+    public static WeatherHistoryResult aggregateMonthly(WeatherHistoryModel model) {
         WeatherHistoryResult result = new WeatherHistoryResult();
         DailyTemperatureData data = model.getDailyTemperatureData();
         List<LocalDate> dates = data.getTimeEntries();
@@ -97,7 +97,7 @@ public class WeatherResultTranslator {
             LocalDate cur = dates.get(i);
             if( cur.getMonth() != currentMonth ) {
                 BigDecimal avg = accumulator.computeAverage();
-                entries.add(new WeatherEntry( WeatherInterval.from( start, end ), avg ) );
+                entries.add(new WeatherEntry( LocalDateRange.from( start, end ), avg ) );
 
                 currentMonth = cur.getMonth();
                 start = cur; end = cur;
@@ -106,7 +106,7 @@ public class WeatherResultTranslator {
                 accumulator.add(temps.get(i));
 
                 BigDecimal avg = accumulator.computeAverage();
-                entries.add(new WeatherEntry( WeatherInterval.from( start, cur ), avg ) );
+                entries.add(new WeatherEntry( LocalDateRange.from( start, cur ), avg ) );
 
                 break;
             }
@@ -121,7 +121,7 @@ public class WeatherResultTranslator {
         return result;
     }
 
-    public WeatherHistoryResult translateYearly(WeatherHistoryModel model) {
+    public static WeatherHistoryResult aggregateYearly(WeatherHistoryModel model) {
 
         WeatherHistoryResult result = new WeatherHistoryResult();
         DailyTemperatureData data = model.getDailyTemperatureData();
@@ -139,7 +139,7 @@ public class WeatherResultTranslator {
             LocalDate cur = dates.get(i);
             if( cur.getYear() != currentYear ) {
                 BigDecimal avg = accumulator.computeAverage();
-                entries.add(new WeatherEntry( WeatherInterval.from( start, end ), avg ) );
+                entries.add(new WeatherEntry( LocalDateRange.from( start, end ), avg ) );
 
                 currentYear = cur.getYear();
                 start = cur; end = cur;
@@ -148,7 +148,7 @@ public class WeatherResultTranslator {
                 accumulator.add(temps.get(i));
 
                 BigDecimal avg = accumulator.computeAverage();
-                entries.add(new WeatherEntry( WeatherInterval.from( start, cur ), avg ) );
+                entries.add(new WeatherEntry( LocalDateRange.from( start, cur ), avg ) );
 
                 break;
             }
@@ -164,7 +164,7 @@ public class WeatherResultTranslator {
 
 
 
-    private class BigDecimalAccumulator {
+    private static class BigDecimalAccumulator {
 
         List<BigDecimal> decimals;
 

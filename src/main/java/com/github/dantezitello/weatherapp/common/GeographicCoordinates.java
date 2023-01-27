@@ -9,6 +9,10 @@ public class GeographicCoordinates {
     BigDecimal latitude;
     BigDecimal longitude;
 
+    public GeographicCoordinates(double latitude, double longitude) {
+        this.latitude = new BigDecimal(latitude);
+        this.longitude = new BigDecimal(longitude);
+    }
     public GeographicCoordinates(BigDecimal latitude, BigDecimal longitude) {
         this.latitude = latitude;
         this.longitude = longitude;

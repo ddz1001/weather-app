@@ -13,12 +13,21 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class WeatherHistoryService {
 
     WebClient webClient;
     WeatherAPIConfig config;
+
+
+    public static enum AggregationOption {
+        DAILY,
+        WEEKLY,
+        MONTHLY,
+        YEARLY
+    }
 
     @Autowired
     public WeatherHistoryService(WeatherAPIConfig config) {
@@ -27,9 +36,47 @@ public class WeatherHistoryService {
         webClient = WebClient.create(config.getWeatherHistoryUrl());
     }
 
-    public WeatherHistoryResult fetchHistoryForLocation(GeographicCoordinates coordinates, LocalDate startRange, LocalDate endRange) throws WeatherAPIException {
+    public WeatherHistoryResult fetchHistoryForLocation(GeographicCoordinates coordinates, AggregationOption option, LocalDate startRange, LocalDate endRange) throws WeatherAPIException {
+
+
+        WeatherHistoryResult result = null;
+        WeatherHistoryModel model;
+
+        switch(option) {
+
+            case DAILY -> {
+                model = fetch(coordinates, startRange, endRange);
+                result = WeatherResultAggregation.aggregateDaily(model);
+            }
+            case WEEKLY -> {
+                startRange = LocalDateAdjustments.adjustToWeekStart(startRange);
+                endRange = LocalDateAdjustments.adjustToWeekEnd(endRange);
+
+                model = fetch(coordinates, startRange, endRange);
+                result = WeatherResultAggregation.aggregateWeekly(model);
+            }
+            case MONTHLY -> {
+                startRange = LocalDateAdjustments.adjustToMonthStart(startRange);
+                endRange = LocalDateAdjustments.adjustToMonthEnd(endRange);
+
+                model = fetch(coordinates, startRange, endRange);
+                result = WeatherResultAggregation.aggregateMonthly(model);
+            }
+            case YEARLY -> {
+                List<LocalDateRange> years = LocalDateAdjustments.splitYearlyIntoRanges(startRange.getYear(), endRange.getYear());
+                result = new WeatherHistoryResult();
+
+                WeatherHistoryModel curModel;
+                for(LocalDateRange year : years) {
+                    curModel = fetch(coordinates, year.getStart(), year.getEnd());
+                    result.getWeatherEntries().addAll( WeatherResultAggregation.aggregateYearly(curModel).getWeatherEntries()  );
+                }
+            }
+        }
+
         fetch(coordinates, startRange, endRange);
-        return null;
+
+        return result;
     }
 
 
@@ -49,7 +96,8 @@ public class WeatherHistoryService {
         historyModelMono = webClient.get()
                 .uri(uri)
                 .retrieve()
-                .bodyToMono( WeatherHistoryModel.class );
+                .bodyToMono( WeatherHistoryModel.class )
+                .cache();
 
 
         return historyModelMono.block();
