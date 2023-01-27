@@ -5,13 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dantezitello.weatherapp.WeatherAPIConfig;
 import com.github.dantezitello.weatherapp.common.GeographicCoordinates;
 import com.github.dantezitello.weatherapp.common.WeatherAPIException;
-import com.github.dantezitello.weatherapp.weather.model.WeatherHistoryModel;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockserver.client.MockServerClient;
+import org.mockserver.integration.ClientAndServer;
+import org.mockserver.model.HttpRequest;
+import org.mockserver.model.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -19,12 +20,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
 public class TestService {
 
-    static MockWebServer mockBackEnd;
+    static ClientAndServer mockBackEnd;
     static String response;
     WeatherHistoryService service;
 
@@ -33,40 +35,105 @@ public class TestService {
 
     @BeforeAll
     static void setUp() throws IOException {
-        mockBackEnd = new MockWebServer();
-        mockBackEnd.start(8080);
-
-        response = Files.readString(Path.of("src/test/resources/weekly-data.json"));
+        mockBackEnd = new ClientAndServer(8080);
+        response = Files.readString(Path.of("src/test/resources/yearly-data.json"));
     }
 
     @AfterAll
     static void tearDown() throws IOException {
-        mockBackEnd.shutdown();
+        mockBackEnd.stop();
     }
 
     @BeforeEach
     public void beforeEach() {
         WeatherAPIConfig testCfg = new WeatherAPIConfig();
-        testCfg.setWeatherHistoryUrl("http://localhost:" + mockBackEnd.getPort());
+        testCfg.setWeatherHistoryUrl("http://localhost:8080");
         service = new WeatherHistoryService(testCfg);
     }
 
 
     @Test
-    public void testDaily() throws WeatherAPIException, InterruptedException, JsonProcessingException {
-        mockBackEnd.enqueue(new MockResponse().setBody(response).setHeader("Content-Type", "application/json").setResponseCode(200).setBodyDelay(1, TimeUnit.MILLISECONDS));
+    public void testDaily() throws WeatherAPIException {
 
-        WeatherHistoryResult result = service.fetchHistoryForLocation(new GeographicCoordinates(1.0,1.0),
+        MockServerClient serverClient = mock();
+
+        serverClient.when( HttpRequest.request().withMethod("GET").withBody("") ).respond(
+                HttpResponse.response(response).withHeader("Content-Type", "application/json")
+        );
+
+        WeatherHistoryResult result = service.fetchHistoryForLocation(
+                new GeographicCoordinates(1.0,1.0),
                 WeatherHistoryService.AggregationOption.DAILY,
                 LocalDate.now(),
                 LocalDate.now());
 
-        result.getWeatherEntries().size();
+        assertNotEquals(0, result.getWeatherEntries().size());
+
+    }
+
+    @Test
+    public void testWeekly() throws WeatherAPIException {
+
+        MockServerClient serverClient = mock();
+
+        serverClient.when( HttpRequest.request().withMethod("GET").withBody("") ).respond(
+                HttpResponse.response(response).withHeader("Content-Type", "application/json")
+        );
+
+        WeatherHistoryResult result = service.fetchHistoryForLocation(
+                new GeographicCoordinates(1.0,1.0),
+                WeatherHistoryService.AggregationOption.WEEKLY,
+                LocalDate.now(),
+                LocalDate.now());
+
+        assertNotEquals(0, result.getWeatherEntries().size());
+
+    }
+
+    @Test
+    public void testMonthly() throws WeatherAPIException {
+
+        MockServerClient serverClient = mock();
+
+        serverClient.when( HttpRequest.request().withMethod("GET").withBody("") ).respond(
+                HttpResponse.response(response).withHeader("Content-Type", "application/json")
+        );
+
+        WeatherHistoryResult result = service.fetchHistoryForLocation(
+                new GeographicCoordinates(1.0,1.0),
+                WeatherHistoryService.AggregationOption.MONTHLY,
+                LocalDate.now(),
+                LocalDate.now());
+
+        assertNotEquals(0, result.getWeatherEntries().size());
+
+    }
+
+    @Test
+    public void testYearly() throws WeatherAPIException {
+
+        MockServerClient serverClient = mock();
+
+        serverClient.when( HttpRequest.request().withMethod("GET").withBody("") ).respond(
+                HttpResponse.response(response).withHeader("Content-Type", "application/json")
+        );
+
+        WeatherHistoryResult result = service.fetchHistoryForLocation(
+                new GeographicCoordinates(1.0,1.0),
+                WeatherHistoryService.AggregationOption.YEARLY,
+                LocalDate.now(),
+                LocalDate.now().plusYears(2));
+
+        assertNotEquals(0, result.getWeatherEntries().size());
+
     }
 
 
 
 
+    public static MockServerClient mock() {
+        return new MockServerClient("localhost", 8080);
+    }
 
 
 

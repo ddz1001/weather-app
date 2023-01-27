@@ -12,6 +12,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -82,7 +83,6 @@ public class WeatherHistoryService {
 
     private WeatherHistoryModel fetch(GeographicCoordinates coordinates, LocalDate startRange, LocalDate endRange) {
 
-        Mono<WeatherHistoryModel> historyModelMono;
 
         URI uri = UriComponentsBuilder.fromUriString(config.getWeatherHistoryUrl())
                 .queryParam("latitude", coordinates.getLatitude())
@@ -93,14 +93,11 @@ public class WeatherHistoryService {
                 .queryParam("start_date", startRange)
                 .queryParam("end_date", endRange).build().toUri();
 
-        historyModelMono = webClient.get()
+        return webClient.get()
                 .uri(uri)
                 .retrieve()
                 .bodyToMono( WeatherHistoryModel.class )
-                .cache();
-
-
-        return historyModelMono.block();
+                .block();
     }
 
 
