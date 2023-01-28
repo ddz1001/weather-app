@@ -15,7 +15,7 @@ public class GeolocationInfo {
     @JsonProperty("country_code")
     String countryCode;
 
-    @JsonProperty("Country")
+    @JsonProperty("country")
     String countryName;
 
     @JsonProperty("admin1")

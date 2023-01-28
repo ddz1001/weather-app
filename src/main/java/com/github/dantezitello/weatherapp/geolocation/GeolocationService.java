@@ -6,7 +6,6 @@ import com.github.dantezitello.weatherapp.common.GeographicCoordinates;
 import com.github.dantezitello.weatherapp.common.WeatherAPIException;
 import com.github.dantezitello.weatherapp.geolocation.model.GeolocationInfo;
 import com.github.dantezitello.weatherapp.geolocation.model.GeolocationModel;
-import com.github.dantezitello.weatherapp.weather.model.WeatherHistoryModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -28,7 +27,7 @@ public class GeolocationService {
         webClient = WebClient.create(config.getGeolocationUrl());
     }
 
-    public GeolocationResult findByCityName(String cityName) throws WeatherAPIException {
+    public GeolocationResult find(String cityName) throws WeatherAPIException {
         GeolocationInfo info = query( fetch(cityName), geo -> geo.getName().equalsIgnoreCase(cityName) ); //select first result
         if(info == null) {
             throw new WeatherAPIException(cityName + " was not found.");
@@ -38,7 +37,7 @@ public class GeolocationService {
         return convert(info);
     }
 
-    public GeolocationResult findByCityCountry(String cityName, String countryCode) throws WeatherAPIException {
+    public GeolocationResult find(String cityName, String countryCode) throws WeatherAPIException {
         GeolocationInfo info = query( fetch(cityName),
                 geo -> geo.getName().equalsIgnoreCase(cityName) && geo.getCountryCode().equalsIgnoreCase(countryCode)
         );
@@ -49,7 +48,7 @@ public class GeolocationService {
         return convert(info);
     }
 
-    public GeolocationResult findByCityCountryAdminRegion(String cityName, String countryCode, String administrativeRegion) throws WeatherAPIException {
+    public GeolocationResult find(String cityName, String countryCode, String administrativeRegion) throws WeatherAPIException {
         GeolocationInfo info = query( fetch(cityName),
                 geo -> geo.getName().equalsIgnoreCase(cityName) && geo.getCountryCode().equalsIgnoreCase(countryCode) && geo.getAdministrativeRegion().equalsIgnoreCase(administrativeRegion)
         );
