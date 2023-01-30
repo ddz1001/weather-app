@@ -3,6 +3,8 @@ package com.github.dantezitello.weatherapp.graphics;
 import com.github.dantezitello.weatherapp.common.UnitType;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPosition;
+import org.jfree.chart.axis.CategoryLabelPositions;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
@@ -19,6 +21,8 @@ import java.awt.*;
 import java.text.DecimalFormat;
 
 public class ChartBuilder {
+
+    private CategoryLabelPositions position;
 
     private CategoryItemRenderer renderer;
     private DefaultCategoryDataset dataset;
@@ -39,6 +43,22 @@ public class ChartBuilder {
         this.seriesCount = 0;
         this.dataset = new DefaultCategoryDataset();
         this.compressRange = false;
+        this.position = CategoryLabelPositions.STANDARD;
+    }
+
+    public ChartBuilder smallDataset() {
+        position = CategoryLabelPositions.STANDARD;
+        return this;
+    }
+
+    public ChartBuilder largeDataset() {
+        position = CategoryLabelPositions.UP_45;
+        return this;
+    }
+
+    public ChartBuilder hugeDataset() {
+        position = CategoryLabelPositions.UP_90;
+        return this;
     }
 
     public ChartCompletion barchart() {
@@ -102,6 +122,7 @@ public class ChartBuilder {
 
         public JFreeChart chart() {
             CategoryAxis categoryAxis = new CategoryAxis("Date");
+            categoryAxis.setCategoryLabelPositions(position);
 
             NumberAxis valuesAxis = new NumberAxis("Temperature");
             String pattern = String.format("0.00 %s", type.getSymbol());
