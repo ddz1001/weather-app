@@ -4,19 +4,19 @@ import com.github.dantezitello.weatherapp.common.UnitType;
 
 public class ChartOptions {
 
-    static enum ChartType {
+    public static enum ChartType {
         LINECHART,
         BARCHART
     }
 
-    static enum IntervalType {
+    public static enum IntervalType {
         DAILY,
         WEEKLY,
         MONTHLY,
         YEARLY
     }
 
-    static enum ContentType {
+    public static enum ContentType {
         SVG,
         PNG
     }

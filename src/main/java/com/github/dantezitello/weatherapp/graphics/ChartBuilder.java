@@ -23,7 +23,6 @@ import java.text.DecimalFormat;
 public class ChartBuilder {
 
     private CategoryLabelPositions position;
-
     private CategoryItemRenderer renderer;
     private DefaultCategoryDataset dataset;
     private UnitType type;
@@ -123,6 +122,7 @@ public class ChartBuilder {
         public JFreeChart chart() {
             CategoryAxis categoryAxis = new CategoryAxis("Date");
             categoryAxis.setCategoryLabelPositions(position);
+
 
             NumberAxis valuesAxis = new NumberAxis("Temperature");
             String pattern = String.format("0.00 %s", type.getSymbol());
