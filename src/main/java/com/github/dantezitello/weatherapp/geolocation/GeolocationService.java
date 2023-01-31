@@ -1,6 +1,6 @@
 package com.github.dantezitello.weatherapp.geolocation;
 
-import com.github.dantezitello.weatherapp.WeatherAPIConfig;
+import com.github.dantezitello.weatherapp.WeatherAppConfig;
 import com.github.dantezitello.weatherapp.common.CityInfo;
 import com.github.dantezitello.weatherapp.common.GeographicCoordinates;
 import com.github.dantezitello.weatherapp.common.WeatherAPIException;
@@ -10,19 +10,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.scheduler.Schedulers;
 
 import java.net.URI;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.function.Predicate;
 
 @Service
 public class GeolocationService {
 
 
-    WeatherAPIConfig config;
+    WeatherAppConfig config;
     WebClient webClient;
 
     @Autowired
-    public GeolocationService(WeatherAPIConfig config) {
+    public GeolocationService(WeatherAppConfig config) {
         this.config = config;
         webClient = WebClient.create(config.getGeolocationUrl());
     }
@@ -74,11 +78,21 @@ public class GeolocationService {
                 .queryParam("language", "en").build().toUri();
 
 
-        return webClient.get()
-                .uri(uri)
-                .retrieve()
-                .bodyToMono( GeolocationModel.class )
-                .block();
+        try {
+            return webClient.get()
+                    .uri(uri)
+                    .retrieve()
+                    .bodyToMono( GeolocationModel.class )
+                    .subscribeOn(Schedulers.boundedElastic())
+                    .toFuture()
+                    .get(10_000, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (TimeoutException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private GeolocationResult convert(GeolocationInfo info) {

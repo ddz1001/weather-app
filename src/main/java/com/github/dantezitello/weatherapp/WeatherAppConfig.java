@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class WeatherAPIConfig {
+public class WeatherAppConfig {
 
 
     @Value("${meteo-api.history-url}")
@@ -16,7 +16,7 @@ public class WeatherAPIConfig {
     @Value("100")
     int cityQueryMax;
 
-    public WeatherAPIConfig() {
+    public WeatherAppConfig() {
     }
 
     public String getWeatherHistoryUrl() {

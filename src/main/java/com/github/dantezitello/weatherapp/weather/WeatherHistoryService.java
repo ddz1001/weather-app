@@ -1,6 +1,6 @@
 package com.github.dantezitello.weatherapp.weather;
 
-import com.github.dantezitello.weatherapp.WeatherAPIConfig;
+import com.github.dantezitello.weatherapp.WeatherAppConfig;
 import com.github.dantezitello.weatherapp.common.GeographicCoordinates;
 import com.github.dantezitello.weatherapp.common.LocalDateRange;
 import com.github.dantezitello.weatherapp.common.WeatherAPIException;
@@ -9,16 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.scheduler.Schedulers;
 
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Service
 public class WeatherHistoryService {
 
     WebClient webClient;
-    WeatherAPIConfig config;
+    WeatherAppConfig config;
 
 
     public static enum AggregationOption {
@@ -29,7 +33,7 @@ public class WeatherHistoryService {
     }
 
     @Autowired
-    public WeatherHistoryService(WeatherAPIConfig config) {
+    public WeatherHistoryService(WeatherAppConfig config) {
         this.config = config;
 
         webClient = WebClient.create(config.getWeatherHistoryUrl());
@@ -73,8 +77,6 @@ public class WeatherHistoryService {
             }
         }
 
-        fetch(coordinates, startRange, endRange);
-
         return result;
     }
 
@@ -91,11 +93,21 @@ public class WeatherHistoryService {
                 .queryParam("start_date", startRange)
                 .queryParam("end_date", endRange).build().toUri();
 
-        return webClient.get()
-                .uri(uri)
-                .retrieve()
-                .bodyToMono( WeatherHistoryModel.class )
-                .block();
+        try {
+            return webClient.get()
+                    .uri(uri)
+                    .retrieve()
+                    .bodyToMono( WeatherHistoryModel.class )
+                    .subscribeOn(Schedulers.boundedElastic())
+                    .toFuture()
+                    .get(10_000, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (TimeoutException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

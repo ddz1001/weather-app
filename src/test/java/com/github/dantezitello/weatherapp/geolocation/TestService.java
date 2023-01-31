@@ -1,6 +1,6 @@
 package com.github.dantezitello.weatherapp.geolocation;
 
-import com.github.dantezitello.weatherapp.WeatherAPIConfig;
+import com.github.dantezitello.weatherapp.WeatherAppConfig;
 import com.github.dantezitello.weatherapp.common.WeatherAPIException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -42,7 +42,7 @@ public class TestService {
 
     @BeforeEach
     void beforeEach() {
-        WeatherAPIConfig config = new WeatherAPIConfig();
+        WeatherAppConfig config = new WeatherAppConfig();
         config.setGeolocationUrl("http://localhost:8080");
         service = new GeolocationService(config);
     }

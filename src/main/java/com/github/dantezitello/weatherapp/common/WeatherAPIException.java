@@ -1,6 +1,6 @@
 package com.github.dantezitello.weatherapp.common;
 
-public class WeatherAPIException extends Exception {
+public class WeatherAPIException extends RuntimeException {
     public WeatherAPIException() {
     }
 

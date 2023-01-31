@@ -1,8 +1,7 @@
 package com.github.dantezitello.weatherapp.weather;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.dantezitello.weatherapp.WeatherAPIConfig;
+import com.github.dantezitello.weatherapp.WeatherAppConfig;
 import com.github.dantezitello.weatherapp.common.GeographicCoordinates;
 import com.github.dantezitello.weatherapp.common.WeatherAPIException;
 import org.junit.jupiter.api.AfterAll;
@@ -46,7 +45,7 @@ public class TestService {
 
     @BeforeEach
     public void beforeEach() {
-        WeatherAPIConfig testCfg = new WeatherAPIConfig();
+        WeatherAppConfig testCfg = new WeatherAppConfig();
         testCfg.setWeatherHistoryUrl("http://localhost:8080");
         service = new WeatherHistoryService(testCfg);
     }
