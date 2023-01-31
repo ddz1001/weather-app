@@ -15,12 +15,8 @@ public class ChartResponse {
 
     @JsonProperty("response-data")
     Object responseData;
-
     @JsonProperty("error-data")
     Object errorData;
-
-
-
     public static ChartResponse createResponseKeyOnly(String key) {
 
         Map<String, Object> entries = new LinkedHashMap<>();

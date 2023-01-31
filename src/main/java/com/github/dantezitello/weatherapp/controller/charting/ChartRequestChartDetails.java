@@ -1,40 +1,43 @@
 package com.github.dantezitello.weatherapp.controller.charting;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.dantezitello.weatherapp.common.ChartStyling;
+import com.github.dantezitello.weatherapp.common.Interval;
+import com.github.dantezitello.weatherapp.common.UnitType;
 
 public class ChartRequestChartDetails {
 
-    @JsonProperty("chart-grouping")
-    ChartGroupingOption groupingOption;
+    @JsonProperty("chart-interval")
+    Interval groupingOption;
     @JsonProperty("chart-style")
-    ChartStyleOption styleOption;
+    ChartStyling styleOption;
     @JsonProperty("unit")
-    ChartUnitOption unitOption;
+    UnitType unitOption;
 
     public ChartRequestChartDetails() {
     }
 
-    public ChartGroupingOption getGroupingOption() {
+    public Interval getGroupingOption() {
         return groupingOption;
     }
 
-    public void setGroupingOption(ChartGroupingOption groupingOption) {
+    public void setGroupingOption(Interval groupingOption) {
         this.groupingOption = groupingOption;
     }
 
-    public ChartStyleOption getStyleOption() {
+    public ChartStyling getStyleOption() {
         return styleOption;
     }
 
-    public void setStyleOption(ChartStyleOption styleOption) {
+    public void setStyleOption(ChartStyling styleOption) {
         this.styleOption = styleOption;
     }
 
-    public ChartUnitOption getUnitOption() {
+    public UnitType getUnitOption() {
         return unitOption;
     }
 
-    public void setUnitOption(ChartUnitOption unitOption) {
+    public void setUnitOption(UnitType unitOption) {
         this.unitOption = unitOption;
     }
 }

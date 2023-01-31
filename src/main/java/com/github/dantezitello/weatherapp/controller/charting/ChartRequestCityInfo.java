@@ -1,22 +1,26 @@
 package com.github.dantezitello.weatherapp.controller.charting;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.dantezitello.weatherapp.common.administration.CanadianProvince;
+import com.github.dantezitello.weatherapp.common.administration.Country;
+import com.github.dantezitello.weatherapp.common.administration.MexicanState;
+import com.github.dantezitello.weatherapp.common.administration.UnitedStatesState;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Objects;
 
 public class ChartRequestCityInfo {
 
     @JsonProperty(value = "city-name", required = true)
     String cityName;
-    @JsonProperty("country-name")
-    String countryName;
-    @JsonProperty("country-code")
-    String countryCode;
+    @JsonProperty("country")
+    Country country;
     @JsonProperty("usa-state")
-    String usaState;
+    UnitedStatesState usaState;
     @JsonProperty("can-province")
-    String canProvince;
+    CanadianProvince canProvince;
     @JsonProperty("mex-state")
-    String mexState;
+    MexicanState mexState;
     @JsonProperty("admin-region")
     String adminRegion;
 
@@ -24,27 +28,23 @@ public class ChartRequestCityInfo {
     }
 
     public boolean isUSA() {
-        return StringUtils.isNotBlank( usaState );
+        return Objects.nonNull(usaState);
     }
 
     public boolean isCAN() {
-        return StringUtils.isNotBlank( canProvince );
+        return Objects.nonNull( canProvince );
     }
 
     public boolean isMEX() {
-        return StringUtils.isNotBlank( mexState );
+        return Objects.nonNull( mexState );
     }
 
     public boolean hasAdmin() {
-        return StringUtils.isNotBlank(adminRegion);
+        return Objects.nonNull(adminRegion);
     }
 
-    public boolean hasCountryCode() {
-        return StringUtils.isNotBlank(countryCode);
-    }
-
-    public boolean hasCountryFull() {
-        return StringUtils.isNotBlank(countryName);
+    public boolean hasCountry() {
+        return Objects.nonNull(country);
     }
 
     public String getCityName() {
@@ -55,43 +55,35 @@ public class ChartRequestCityInfo {
         this.cityName = cityName;
     }
 
-    public String getCountryName() {
-        return countryName;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
-
-    public String getUsaState() {
+    public UnitedStatesState getUsaState() {
         return usaState;
     }
 
-    public void setUsaState(String usaState) {
+    public void setUsaState(UnitedStatesState usaState) {
         this.usaState = usaState;
     }
 
-    public String getCanProvince() {
+    public CanadianProvince getCanProvince() {
         return canProvince;
     }
 
-    public void setCanProvince(String canProvince) {
+    public void setCanProvince(CanadianProvince canProvince) {
         this.canProvince = canProvince;
     }
 
-    public String getMexState() {
+    public MexicanState getMexState() {
         return mexState;
     }
 
-    public void setMexState(String mexState) {
+    public void setMexState(MexicanState mexState) {
         this.mexState = mexState;
     }
 
