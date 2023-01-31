@@ -1,10 +1,8 @@
 package com.github.dantezitello.weatherapp.graphics;
 
-import com.github.dantezitello.weatherapp.common.CityInfo;
-import com.github.dantezitello.weatherapp.common.RecordedAverage;
-import com.github.dantezitello.weatherapp.common.UnitType;
-import com.github.dantezitello.weatherapp.geolocation.administration.Country;
-import com.github.dantezitello.weatherapp.geolocation.administration.UnitedStatesAdminRegion;
+import com.github.dantezitello.weatherapp.common.*;
+import com.github.dantezitello.weatherapp.common.administration.Country;
+import com.github.dantezitello.weatherapp.common.administration.UnitedStatesState;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -19,7 +17,7 @@ public class TestChartRenderer {
     @Test
     public void testRendererDaily() throws IOException {
 
-        ChartOptions options = new ChartOptions(ChartOptions.ChartType.BARCHART, ChartOptions.IntervalType.DAILY, ChartOptions.ContentType.PNG, UnitType.FAHRENHEIT);
+        ChartOptions options = new ChartOptions(ChartStyling.BAR, Interval.DAILY, ContentGenerationType.PNG, UnitType.FAHRENHEIT);
         byte[] bytes = ChartRenderer.renderChart(buildTestDataDaily(), options);
 
         Files.write(Path.of("src/test/resources/output.png"), bytes);
@@ -28,7 +26,7 @@ public class TestChartRenderer {
     @Test
     public void testRendererBig() throws IOException {
 
-        ChartOptions options = new ChartOptions(ChartOptions.ChartType.LINECHART, ChartOptions.IntervalType.DAILY, ChartOptions.ContentType.PNG, UnitType.FAHRENHEIT);
+        ChartOptions options = new ChartOptions(ChartStyling.LINE, Interval.DAILY, ContentGenerationType.PNG, UnitType.FAHRENHEIT);
         byte[] bytes = ChartRenderer.renderChart(longSeries(), options);
 
         Files.write(Path.of("src/test/resources/big.png"), bytes);
@@ -40,8 +38,8 @@ public class TestChartRenderer {
         ChartDataBuilder builder = new ChartDataBuilder();
 
 
-        CityInfo newyork = new CityInfo("New York City", Country.UNITED_STATES.getName(), Country.UNITED_STATES.getTwoLetterCode(), UnitedStatesAdminRegion.NY.getFullName());
-        CityInfo losangeles = new CityInfo("Los Angeles", Country.UNITED_STATES.getName(), Country.UNITED_STATES.getTwoLetterCode(), UnitedStatesAdminRegion.CA.getFullName());
+        CityInfo newyork = new CityInfo("New York City", Country.UNITED_STATES, UnitedStatesState.NEW_YORK.englishName());
+        CityInfo losangeles = new CityInfo("Los Angeles", Country.UNITED_STATES,UnitedStatesState.CALIFORNIA.englishName());
 
         List<RecordedAverage> nyAverages = List.of(
                 RecordedAverage.record("10.5", UnitType.FAHRENHEIT, LocalDate.of(2019, 10, 1)),
@@ -74,7 +72,7 @@ public class TestChartRenderer {
         ChartDataBuilder builder = new ChartDataBuilder();
 
 
-        CityInfo newyork = new CityInfo("New York City", Country.UNITED_STATES.getName(), Country.UNITED_STATES.getTwoLetterCode(), UnitedStatesAdminRegion.NY.getFullName());
+        CityInfo newyork = new CityInfo("New York City", Country.UNITED_STATES, UnitedStatesState.NEW_YORK.englishName());
 
         LocalDate currentDate = LocalDate.of(2020,1,1);
 

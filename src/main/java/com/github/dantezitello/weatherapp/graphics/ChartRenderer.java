@@ -1,8 +1,6 @@
 package com.github.dantezitello.weatherapp.graphics;
 
-import com.github.dantezitello.weatherapp.common.CityInfo;
-import com.github.dantezitello.weatherapp.common.LocalDateRange;
-import com.github.dantezitello.weatherapp.common.RecordedAverage;
+import com.github.dantezitello.weatherapp.common.*;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jfree.chart.JFreeChart;
 
@@ -77,7 +75,7 @@ public class ChartRenderer {
         }
 
         JFreeChart chart = null;
-        if(options.getDisplayType() == ChartOptions.ChartType.LINECHART) {
+        if(options.getDisplayType() == ChartStyling.LINE) {
             chart = render(data, builder.linechart(), fmt);
         }
         else {
@@ -86,7 +84,7 @@ public class ChartRenderer {
 
         Dimension size = idealDimension(data);
 
-        if(options.getContentType() == ChartOptions.ContentType.SVG) {
+        if(options.getContentType() == ContentGenerationType.SVG) {
             out.write( ChartGraphicsUtils.convertToSvg( chart, size ).getBytes(StandardCharsets.UTF_8) );
         }
         else {
@@ -112,7 +110,7 @@ public class ChartRenderer {
     }
 
     private static String formatCityName(CityInfo info) {
-        return String.format("%s, %s", info.getCityName(), info.getCountryCode());
+        return String.format("%s, %s", info.getCityName(), info.getCountry().getTwoLetterCode());
     }
 
     private static Dimension idealDimension(ChartData data) {

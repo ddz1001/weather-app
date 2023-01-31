@@ -3,6 +3,8 @@ package com.github.dantezitello.weatherapp.weather;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dantezitello.weatherapp.WeatherAppConfig;
 import com.github.dantezitello.weatherapp.common.GeographicCoordinates;
+import com.github.dantezitello.weatherapp.common.Interval;
+import com.github.dantezitello.weatherapp.common.UnitType;
 import com.github.dantezitello.weatherapp.common.WeatherAPIException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -62,7 +64,7 @@ public class TestService {
 
         WeatherHistoryResult result = service.fetchHistoryForLocation(
                 new GeographicCoordinates(1.0,1.0),
-                WeatherHistoryService.AggregationOption.DAILY,
+                new WeatherHistoryOptions(UnitType.CELSIUS, Interval.DAILY),
                 LocalDate.now(),
                 LocalDate.now());
 
@@ -81,7 +83,7 @@ public class TestService {
 
         WeatherHistoryResult result = service.fetchHistoryForLocation(
                 new GeographicCoordinates(1.0,1.0),
-                WeatherHistoryService.AggregationOption.WEEKLY,
+                new WeatherHistoryOptions(UnitType.CELSIUS, Interval.WEEKLY),
                 LocalDate.now(),
                 LocalDate.now());
 
@@ -100,7 +102,7 @@ public class TestService {
 
         WeatherHistoryResult result = service.fetchHistoryForLocation(
                 new GeographicCoordinates(1.0,1.0),
-                WeatherHistoryService.AggregationOption.MONTHLY,
+                new WeatherHistoryOptions(UnitType.CELSIUS, Interval.MONTHLY),
                 LocalDate.now(),
                 LocalDate.now());
 
@@ -119,13 +121,34 @@ public class TestService {
 
         WeatherHistoryResult result = service.fetchHistoryForLocation(
                 new GeographicCoordinates(1.0,1.0),
-                WeatherHistoryService.AggregationOption.YEARLY,
+                new WeatherHistoryOptions(UnitType.CELSIUS, Interval.YEARLY),
                 LocalDate.now(),
                 LocalDate.now().plusYears(2));
 
         assertNotEquals(0, result.getWeatherEntries().size());
 
     }
+
+
+    @Test
+    public void testDailyConvertToKelvin() throws WeatherAPIException {
+
+        MockServerClient serverClient = mock();
+
+        serverClient.when( HttpRequest.request().withMethod("GET").withBody("") ).respond(
+                HttpResponse.response(response).withHeader("Content-Type", "application/json")
+        );
+
+        WeatherHistoryResult result = service.fetchHistoryForLocation(
+                new GeographicCoordinates(1.0,1.0),
+                new WeatherHistoryOptions(UnitType.KELVIN, Interval.DAILY),
+                LocalDate.now(),
+                LocalDate.now());
+
+        assertNotEquals(0, result.getWeatherEntries().size());
+
+    }
+
 
 
 

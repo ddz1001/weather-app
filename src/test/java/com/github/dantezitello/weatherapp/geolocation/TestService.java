@@ -2,6 +2,7 @@ package com.github.dantezitello.weatherapp.geolocation;
 
 import com.github.dantezitello.weatherapp.WeatherAppConfig;
 import com.github.dantezitello.weatherapp.common.WeatherAPIException;
+import com.github.dantezitello.weatherapp.common.administration.Country;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,8 +66,7 @@ public class TestService {
         GeolocationResult result = service.find("chester");
 
         assertEquals("Chester", result.getCityInfo().getCityName());
-        assertEquals("GB", result.getCityInfo().getCountryCode());
-        assertEquals("United Kingdom", result.getCityInfo().getCountryName());
+        assertEquals(Country.UNITED_KINGDOM, result.getCityInfo().getCountry());
         assertEquals("England", result.getCityInfo().getAdministrativeRegion());
     }
 
@@ -78,11 +78,10 @@ public class TestService {
                 HttpResponse.response(response).withHeader("Content-Type", "application/json")
         );
 
-        GeolocationResult result = service.find("chester", "us");
+        GeolocationResult result = service.find("chester", Country.UNITED_STATES);
 
         assertEquals("Chester", result.getCityInfo().getCityName());
-        assertEquals("US", result.getCityInfo().getCountryCode());
-        assertEquals("United States", result.getCityInfo().getCountryName());
+        assertEquals(Country.UNITED_STATES, result.getCityInfo().getCountry());
         assertEquals("Illinois", result.getCityInfo().getAdministrativeRegion());
     }
 
@@ -94,11 +93,10 @@ public class TestService {
                 HttpResponse.response(response).withHeader("Content-Type", "application/json")
         );
 
-        GeolocationResult result = service.find("chester", "us", "montana");
+        GeolocationResult result = service.find("chester", Country.UNITED_STATES, "montana");
 
         assertEquals("Chester", result.getCityInfo().getCityName());
-        assertEquals("US", result.getCityInfo().getCountryCode());
-        assertEquals("United States", result.getCityInfo().getCountryName());
+        assertEquals(Country.UNITED_STATES, result.getCityInfo().getCountry());
         assertEquals("Montana", result.getCityInfo().getAdministrativeRegion());
     }
 }

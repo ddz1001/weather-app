@@ -4,6 +4,7 @@ import com.github.dantezitello.weatherapp.WeatherAppConfig;
 import com.github.dantezitello.weatherapp.common.CityInfo;
 import com.github.dantezitello.weatherapp.common.GeographicCoordinates;
 import com.github.dantezitello.weatherapp.common.WeatherAPIException;
+import com.github.dantezitello.weatherapp.common.administration.Country;
 import com.github.dantezitello.weatherapp.geolocation.model.GeolocationInfo;
 import com.github.dantezitello.weatherapp.geolocation.model.GeolocationModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,23 +42,23 @@ public class GeolocationService {
         return convert(info);
     }
 
-    public GeolocationResult find(String cityName, String countryCode) throws WeatherAPIException {
+    public GeolocationResult find(String cityName, Country country) throws WeatherAPIException {
         GeolocationInfo info = query( fetch(cityName),
-                geo -> geo.getName().equalsIgnoreCase(cityName) && geo.getCountryCode().equalsIgnoreCase(countryCode)
+                geo -> geo.getName().equalsIgnoreCase(cityName) && geo.getCountryCode() == country
         );
         if(info == null) {
-            throw new WeatherAPIException(cityName + " [country-code]:" + countryCode + " was not found.");
+            throw new WeatherAPIException(cityName + " [country-code]:" + country.getTwoLetterCode() + " was not found.");
         }
 
         return convert(info);
     }
 
-    public GeolocationResult find(String cityName, String countryCode, String administrativeRegion) throws WeatherAPIException {
+    public GeolocationResult find(String cityName, Country country, String administrativeRegion) throws WeatherAPIException {
         GeolocationInfo info = query( fetch(cityName),
-                geo -> geo.getName().equalsIgnoreCase(cityName) && geo.getCountryCode().equalsIgnoreCase(countryCode) && geo.getAdministrativeRegion().equalsIgnoreCase(administrativeRegion)
+                geo -> geo.getName().equalsIgnoreCase(cityName) && geo.getCountryCode() == country && geo.getAdministrativeRegion().equalsIgnoreCase(administrativeRegion)
         );
         if(info == null) {
-            throw new WeatherAPIException(cityName + " [country-code]:" + countryCode
+            throw new WeatherAPIException(cityName + " [country-code]:" + country.getTwoLetterCode()
                     + " [admin-region]:" + administrativeRegion + " was not found.");
         }
 
@@ -86,11 +87,7 @@ public class GeolocationService {
                     .subscribeOn(Schedulers.boundedElastic())
                     .toFuture()
                     .get(10_000, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (TimeoutException e) {
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new RuntimeException(e);
         }
     }
@@ -99,7 +96,6 @@ public class GeolocationService {
         return new GeolocationResult(
                 new CityInfo(
                         info.getName(),
-                        info.getCountryName(),
                         info.getCountryCode(),
                         info.getAdministrativeRegion()
                 ),

@@ -1,16 +1,16 @@
 package com.github.dantezitello.weatherapp.common;
 
+import com.github.dantezitello.weatherapp.common.administration.Country;
+
 public class CityInfo {
 
     String cityName;
-    String countryName;
-    String countryCode;
+    Country country;
     String administrativeRegion;
 
-    public CityInfo(String cityName, String countryName, String countryCode, String administrativeRegion) {
+    public CityInfo(String cityName, Country country, String administrativeRegion) {
         this.cityName = cityName;
-        this.countryName = countryName;
-        this.countryCode = countryCode;
+        this.country = country;
         this.administrativeRegion = administrativeRegion;
     }
 
@@ -18,15 +18,23 @@ public class CityInfo {
         return cityName;
     }
 
-    public String getCountryName() {
-        return countryName;
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
-    public String getCountryCode() {
-        return countryCode;
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     public String getAdministrativeRegion() {
         return administrativeRegion;
+    }
+
+    public void setAdministrativeRegion(String administrativeRegion) {
+        this.administrativeRegion = administrativeRegion;
     }
 }

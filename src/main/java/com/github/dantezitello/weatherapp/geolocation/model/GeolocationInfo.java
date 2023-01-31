@@ -2,6 +2,7 @@ package com.github.dantezitello.weatherapp.geolocation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.dantezitello.weatherapp.common.administration.Country;
 
 import java.math.BigDecimal;
 
@@ -13,10 +14,7 @@ public class GeolocationInfo {
     BigDecimal longitude;
 
     @JsonProperty("country_code")
-    String countryCode;
-
-    @JsonProperty("country")
-    String countryName;
+    Country countryCode;
 
     @JsonProperty("admin1")
     String administrativeRegion;
@@ -48,20 +46,12 @@ public class GeolocationInfo {
         this.longitude = longitude;
     }
 
-    public String getCountryCode() {
+    public Country getCountryCode() {
         return countryCode;
     }
 
-    public void setCountryCode(String countryCode) {
+    public void setCountryCode(Country countryCode) {
         this.countryCode = countryCode;
-    }
-
-    public String getCountryName() {
-        return countryName;
-    }
-
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
     }
 
     public String getAdministrativeRegion() {
