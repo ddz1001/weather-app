@@ -1,9 +1,7 @@
 package com.github.dantezitello.weatherapp.charting;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import com.github.dantezitello.weatherapp.common.ContentGenerationType;
+import jakarta.persistence.*;
 
 import java.sql.Blob;
 import java.time.LocalDateTime;
@@ -11,9 +9,9 @@ import java.time.LocalDateTime;
 @Entity
 public class RenderedChartEntity {
 
-    @Id int id;
+    @Id @GeneratedValue int id;
     @Column String resourceKey;
-    @Column String format;
+    @Column ContentGenerationType format;
     @Column LocalDateTime createdTime;
     @Column @Lob Blob data;
 
@@ -37,11 +35,11 @@ public class RenderedChartEntity {
         this.resourceKey = resourceKey;
     }
 
-    public String getFormat() {
+    public ContentGenerationType getFormat() {
         return format;
     }
 
-    public void setFormat(String format) {
+    public void setFormat(ContentGenerationType format) {
         this.format = format;
     }
 

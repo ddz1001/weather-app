@@ -67,12 +67,15 @@ public class ChartRenderer {
 
         ChartBuilder builder = new ChartBuilder(title, options.getUnitType());
 
-        if(count(data) > 15) {
+
+        if(count(data) > 15 || options.getIntervalType() == Interval.MONTHLY) {
+            //Months tend to get squished together, so we do it for them as well
             builder.largeDataset();
         }
         if(count(data) > 45) {
             builder.hugeDataset();
         }
+
 
         JFreeChart chart = null;
         if(options.getDisplayType() == ChartStyling.LINE) {

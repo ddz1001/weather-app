@@ -28,11 +28,10 @@ public class ChartingService {
 
     public String createChart(ChartData data, ChartOptions options) {
 
-        String format = options.getContentType().name().toLowerCase();
-        String key = generateResourceKey(format);
+        String key = generateResourceKey(options.getContentType().getSuffix());
         RenderedChartEntity entity = new RenderedChartEntity();
         entity.setCreatedTime( LocalDateTime.now() );
-        entity.setFormat(format);
+        entity.setFormat(options.getContentType());
         entity.setResourceKey( key );
 
         Blob blob = BlobProxy.generateProxy( ChartRenderer.renderChart(data, options) );

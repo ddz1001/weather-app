@@ -17,7 +17,7 @@ public class ChartResponse {
     Object responseData;
     @JsonProperty("error-data")
     Object errorData;
-    public static ChartResponse createResponseKeyOnly(String key) {
+    public static ChartResponse createResponse(String key) {
 
         Map<String, Object> entries = new LinkedHashMap<>();
         entries.put("resource-key", key);
@@ -25,41 +25,6 @@ public class ChartResponse {
         ChartResponse response = new ChartResponse();
         response.responseData = entries;
         response.errorData = null;
-        return response;
-    }
-
-    public static ChartResponse createResponseWithKeyAndData(String key, ChartData data) {
-        ChartResponse response = new ChartResponse();
-
-        Map<String, Object> entries = new LinkedHashMap<>();
-        entries.put("resource-key", key);
-
-        ArrayList<CityWithAverages> arr = new ArrayList<>();
-        for(Pair<CityInfo, List<RecordedAverage>> pair : data.getData()) {
-            arr.add(new CityWithAverages(pair.getLeft(), pair.getRight()));
-        }
-
-        entries.put("averages", arr);
-
-        response.responseData = entries;
-        response.errorData = null;
-
-        return response;
-    }
-
-    public static ChartResponse createResponseDataOnly(ChartData data) {
-        ChartResponse response = new ChartResponse();
-        Map<String, Object> entries = new LinkedHashMap<>();
-
-        ArrayList<CityWithAverages> arr = new ArrayList<>();
-        for(Pair<CityInfo, List<RecordedAverage>> pair : data.getData()) {
-            arr.add(new CityWithAverages(pair.getLeft(), pair.getRight()));
-        }
-
-        entries.put("averages", arr);
-        response.responseData = entries;
-        response.errorData = null;
-
         return response;
     }
 
@@ -70,17 +35,4 @@ public class ChartResponse {
 
         return response;
     }
-
-
-    private static class CityWithAverages {
-        CityInfo city;
-        List<RecordedAverage> averages;
-
-        public CityWithAverages(CityInfo city, List<RecordedAverage> averages) {
-            this.city = city;
-            this.averages = averages;
-        }
-    }
-
-
 }

@@ -30,7 +30,7 @@ public class ResourceAccessController {
         RenderedChartEntity entity = repository.findByResourceKey(key).get();
 
         return ResponseEntity.ok()
-                .header("Content-Type","image/svg+xml")
+                .header("Content-Type",entity.getFormat().getMimeTypeString())
                 .body(new InputStreamResource( entity.getData().getBinaryStream() ));
     }
 

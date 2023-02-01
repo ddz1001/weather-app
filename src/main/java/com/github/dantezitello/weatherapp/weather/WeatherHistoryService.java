@@ -98,7 +98,7 @@ public class WeatherHistoryService {
         URI uri = UriComponentsBuilder.fromUriString(config.getWeatherHistoryUrl())
                 .queryParam("latitude", coordinates.getLatitude())
                 .queryParam("longitude", coordinates.getLongitude())
-                .queryParam("temperature_unit", type.getFullName())
+                .queryParam("temperature_unit", type.getAPIName())
                 .queryParam("timezone", "GMT")
                 .queryParam("daily", "temperature_2m_max")
                 .queryParam("start_date", startRange)
