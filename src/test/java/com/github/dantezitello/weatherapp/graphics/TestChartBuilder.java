@@ -13,6 +13,8 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class TestChartBuilder {
 
 
@@ -34,7 +36,7 @@ public class TestChartBuilder {
 
         String svg = ChartGraphicsUtils.convertToSvg(chart, new Dimension(600, 400));
 
-        Files.writeString(Path.of("barchartA.svg"), svg);
+        assertNotNull(svg);
     }
 
     @Test
@@ -55,7 +57,7 @@ public class TestChartBuilder {
 
         String svg = ChartGraphicsUtils.convertToSvg(chart, new Dimension(600, 400));
 
-        Files.writeString(Path.of("linechartA.svg"), svg);
+        assertNotNull(svg);
     }
 
 
@@ -86,7 +88,7 @@ public class TestChartBuilder {
 
         String svg = ChartGraphicsUtils.convertToSvg(chart, new Dimension(600, 400));
 
-        Files.writeString(Path.of("barchartB.svg"), svg);
+        assertNotNull(svg);
     }
 
 
@@ -116,7 +118,7 @@ public class TestChartBuilder {
 
         String svg = ChartGraphicsUtils.convertToSvg(chart, new Dimension(600, 400));
 
-        Files.writeString(Path.of("linechartB.svg"), svg);
+        assertNotNull(svg);
     }
 
     @Test
@@ -153,7 +155,7 @@ public class TestChartBuilder {
 
         String svg = ChartGraphicsUtils.convertToSvg(chart, new Dimension(600, 400));
 
-        Files.writeString(Path.of("barchartC.svg"), svg);
+        assertNotNull(svg);
     }
 
 
@@ -191,7 +193,7 @@ public class TestChartBuilder {
 
         String svg = ChartGraphicsUtils.convertToSvg(chart, new Dimension(600, 400));
 
-        Files.writeString(Path.of("linechartC.svg"), svg);
+        assertNotNull(svg);
     }
 
 
@@ -217,7 +219,7 @@ public class TestChartBuilder {
         ImageIO.write(image, "png", out);
         out.flush();
 
-        Files.write(Path.of("barchart.png"), out.toByteArray());
+        assertNotNull(out.toByteArray());
 
     }
 

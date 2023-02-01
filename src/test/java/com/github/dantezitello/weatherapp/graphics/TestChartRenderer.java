@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 public class TestChartRenderer {
 
     @Test
@@ -20,7 +22,7 @@ public class TestChartRenderer {
         ChartOptions options = new ChartOptions(ChartStyling.BAR, Interval.DAILY, ContentGenerationType.PNG, UnitType.FAHRENHEIT);
         byte[] bytes = ChartRenderer.renderChart(buildTestDataDaily(), options);
 
-        Files.write(Path.of("src/test/resources/output.png"), bytes);
+        assertNotNull(bytes);
     }
 
     @Test
@@ -29,7 +31,7 @@ public class TestChartRenderer {
         ChartOptions options = new ChartOptions(ChartStyling.LINE, Interval.DAILY, ContentGenerationType.PNG, UnitType.FAHRENHEIT);
         byte[] bytes = ChartRenderer.renderChart(longSeries(), options);
 
-        Files.write(Path.of("src/test/resources/big.png"), bytes);
+        assertNotNull(bytes);
     }
 
 
