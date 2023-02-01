@@ -1,0 +1,22 @@
+This project utilizes the Historical Weather API from the Open-Meteo project (https://open-meteo.com/en/docs/historical-weather-api)
+
+Open-Mateo sources its historical weather data from the Copernicus Climate Change program, acknowledgement below:
+
+    ERA5: Generated using Copernicus Climate Change Service information 2022.
+
+    ERA5: Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J.,
+    Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N. (2018):
+    ERA5 hourly data on single levels from 1959 to present.
+    Copernicus Climate Change Service (C3S) Climate Data Store (CDS). (Updated daily), 10.24381/cds.adbb2d47
+
+    ERA5-Land: Muñoz Sabater, J., (2019): ERA5-Land hourly data from 1981 to present. (Accessed on daily), 10.24381/cds.e2161bac
+
+    CERRA: Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea U., Bazile E.,
+    Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton M., Hopsch S., Isaksson L., Mladek R.,
+    Olsson E., Verrelle A., Wang Z.Q., (accessed on 2022-12-31), doi: '10.24381/cds.622a565a'
+
+
+This project also utilizes Open-Meteo's geocoding API (https://open-meteo.com/en/docs/geocoding-api), whose
+date is sourced from the GeoNames Geographical Database (https://www.geonames.org/)
+
+More information about Open-Meteo can be found at their website, https://open-meteo.com/
