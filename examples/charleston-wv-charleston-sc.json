@@ -1,0 +1,23 @@
+{
+  "chart-details":{
+    "chart-interval":"monthly",
+    "chart-style":"bar",
+    "unit":"f"
+  },
+
+  "cities" : [
+    {
+      "city-name":"Charleston",
+      "usa-state":"WV"
+    },
+    {
+      "city-name":"Charleston",
+      "usa-state":"SC"
+    }
+  ],
+
+  "date-range":{
+    "start-date":"2008-01-01",
+    "end-date":"2009-01-01"
+  }
+}

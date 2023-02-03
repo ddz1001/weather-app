@@ -1,0 +1,19 @@
+{
+  "chart-details":{
+    "chart-interval":"yearly",
+    "chart-style":"line",
+    "unit":"c"
+  },
+
+  "cities" : [
+    {
+      "city-name":"Richmond",
+      "usa-state":"VA"
+    }
+  ],
+
+  "date-range":{
+    "start-date":"1965-01-01",
+    "end-date":"2020-01-01"
+  }
+}

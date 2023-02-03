@@ -1,0 +1,32 @@
+{
+  "chart-details":{
+    "chart-interval":"yearly",
+    "chart-style":"line",
+    "unit":"c"
+  },
+
+  "cities" : [
+    {
+      "city-name":"Mumbai",
+      "country":"India",
+      "admin-region":"Maharashtra"
+    },
+    {
+      "city-name":"Cape Town",
+      "country":"South Africa"
+    },
+    {
+      "city-name":"Sydney",
+      "country":"Australia"
+    },
+    {
+      "city-name":"Montreal",
+      "can-province":"Quebec"
+    }
+  ],
+
+  "date-range":{
+    "start-date":"2000-01-05",
+    "end-date":"2020-03-15"
+  }
+}

@@ -142,8 +142,8 @@ public class ChartRenderer {
         int widthPx;
 
         if(styling == ChartStyling.BAR) {
-            columnPx = 70;
-            widthPx = 50;
+            columnPx = 40;
+            widthPx = 20;
         }
         else {
             columnPx = 25;

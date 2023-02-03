@@ -34,7 +34,7 @@ public enum UnitedStatesState implements AdministrationRegion {
     @JsonProperty("Colorado")               @JsonAlias({"CO"}) COLORADO("CO","Colorado"),
     @JsonProperty("Connecticut")            @JsonAlias({"CT"}) CONNECTICUT("CT","Connecticut"),
     @JsonProperty("Delaware")               @JsonAlias({"DE"}) DELAWARE("DE","Delaware"),
-    @JsonProperty("District of Columbia")   @JsonAlias({"DC"}) DISTRICT_OF_COLUMBIA("DC","District of Columbia"),
+    @JsonProperty("Washington, D.C.")       @JsonAlias({"DC", "District of Columbia"}) WASHINGTON_DC("DC","Washington, D.C."),
     @JsonProperty("Florida")                @JsonAlias({"FL"}) FLORIDA("FL","Florida"),
     @JsonProperty("Georgia")                @JsonAlias({"GA"}) GEORGIA("GA","Georgia"),
     @JsonProperty("Guam")                   @JsonAlias({"GU"}) GUAM("GU","Guam"),

@@ -110,6 +110,7 @@ public enum Country {
     @JsonProperty("Guam")                               @JsonAlias({"GU","GUM"}) GUAM("Guam","GU","GUM"),
     @JsonProperty("Guatemala")                          @JsonAlias({"GT","GTM"}) GUATEMALA("Guatemala","GT","GTM"),
     @JsonProperty("Guernsey")                           @JsonAlias({"GG","GGY"}) GUERNSEY("Guernsey","GG","GGY"),
+    @JsonProperty("Guadeloupe")                         @JsonAlias({"GP","GLP"}) GUADELOUPE("Guadeloupe", "GP", "GLP"),
     @JsonProperty("Guinea")                             @JsonAlias({"GN","GIN"}) GUINEA("Guinea","GN","GIN"),
     @JsonProperty("Guinea-Bissau")                      @JsonAlias({"GW","GNB"}) GUINEA_BISSAU("Guinea-Bissau","GW","GNB"),
     @JsonProperty("Guyana")                             @JsonAlias({"GY","GUY"}) GUYANA("Guyana","GY","GUY"),

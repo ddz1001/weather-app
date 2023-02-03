@@ -1,0 +1,23 @@
+{
+  "chart-details":{
+    "chart-interval":"monthly",
+    "chart-style":"bar",
+    "unit":"c"
+  },
+
+  "cities" : [
+    {
+      "city-name":"Rome",
+      "country":"Italy"
+    },
+    {
+      "city-name":"London",
+      "country":"GB"
+    }
+  ],
+
+  "date-range":{
+    "start-date":"2015-03-05",
+    "end-date":"2016-03-15"
+  }
+}

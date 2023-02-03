@@ -1,0 +1,19 @@
+{
+  "chart-details":{
+    "chart-interval":"daily",
+    "chart-style":"line",
+    "unit":"f"
+  },
+
+  "cities" : [
+    {
+      "city-name":"new york",
+      "usa-state":"ny"
+    }
+  ],
+
+  "date-range":{
+    "start-date":"2005-03-05",
+    "end-date":"2005-03-15"
+  }
+}

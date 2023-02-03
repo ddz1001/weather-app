@@ -22,7 +22,9 @@ import com.github.dantezitello.weatherapp.charting.RenderedChartEntity;
 import com.github.dantezitello.weatherapp.charting.RenderedChartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,12 +41,13 @@ public class ResourceAccessController {
     @Autowired
     RenderedChartRepository repository;
 
-    @GetMapping("/{key}")
-    public ResponseEntity<InputStreamResource> download(@PathVariable("key") String key) throws SQLException {
+
+    @GetMapping("/preview/{key}")
+    public ResponseEntity<InputStreamResource> preview(@PathVariable("key") String key) throws SQLException {
 
         Optional<RenderedChartEntity> optional = repository.findByResourceKey(key);
         if(optional.isEmpty()) {
-            return (ResponseEntity<InputStreamResource>) ResponseEntity.notFound();
+            return ResponseEntity.notFound().build();
         }
 
         RenderedChartEntity entity = optional.get();
@@ -53,5 +56,24 @@ public class ResourceAccessController {
                 .header("Content-Type",entity.getFormat().getMimeTypeString())
                 .body(new InputStreamResource( entity.getData().getBinaryStream() ));
     }
+
+    @GetMapping("/download/{key}")
+    public ResponseEntity<InputStreamResource> download(@PathVariable("key") String key) throws SQLException {
+
+
+        Optional<RenderedChartEntity> optional = repository.findByResourceKey(key);
+        if(optional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        RenderedChartEntity entity = optional.get();
+        String fname = String.format("attachment; filename=\"%s\"", key);
+
+        return ResponseEntity.ok()
+                .header("Content-Type",entity.getFormat().getMimeTypeString())
+                .header("Content-Disposition", fname)
+                .body(new InputStreamResource( entity.getData().getBinaryStream() ));
+    }
+
 
 }

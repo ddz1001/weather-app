@@ -1,0 +1,40 @@
+{
+  "chart-details":{
+    "chart-interval":"yearly",
+    "chart-style":"line",
+    "unit":"k"
+  },
+
+  "cities" : [
+    {
+      "city-name":"St Francis Bay",
+      "country":"South Africa",
+      "admin-region":"Eastern Cape"
+    },
+    {
+      "city-name":"Kamina",
+      "country":"Democratic Republic of the Congo"
+    },
+    {
+      "city-name":"Benghazi",
+      "country":"Libya"
+    },
+    {
+      "city-name":"Bucharest",
+      "country":"Romania"
+    },
+    {
+      "city-name":"Riga",
+      "country":"latvia"
+    },
+    {
+      "city-name":"Kirkenes",
+      "country":"Norway"
+    }
+  ],
+
+  "date-range":{
+    "start-date":"2000-01-01",
+    "end-date":"2020-03-01"
+  }
+}

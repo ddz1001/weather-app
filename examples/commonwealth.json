@@ -1,0 +1,35 @@
+{
+  "chart-details":{
+    "chart-interval":"weekly",
+    "chart-style":"line",
+    "unit":"f"
+  },
+
+  "cities" : [
+    {
+      "city-name":"London",
+      "country":"United Kingdom"
+    },
+    {
+      "city-name":"Pretoria",
+      "country":"South Africa"
+    },
+    {
+      "city-name":"Canberra",
+      "country":"Australia"
+    },
+    {
+      "city-name":"Ottawa",
+      "can-province":"ON"
+    },
+    {
+      "city-name":"Wellington",
+      "country":"New Zealand"
+    }
+  ],
+
+  "date-range":{
+    "start-date":"2009-01-01",
+    "end-date":"2009-03-01"
+  }
+}
