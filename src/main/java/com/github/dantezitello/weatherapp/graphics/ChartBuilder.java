@@ -19,6 +19,8 @@
 package com.github.dantezitello.weatherapp.graphics;
 
 import com.github.dantezitello.weatherapp.common.UnitType;
+import com.github.dantezitello.weatherapp.graphics.renderers.TitledBarRenderer;
+import com.github.dantezitello.weatherapp.graphics.renderers.TitledLineAndShapeRenderer;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.CategoryLabelPositions;
@@ -36,6 +38,7 @@ import org.jfree.data.general.DatasetUtils;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 
 public class ChartBuilder {
 
@@ -48,6 +51,9 @@ public class ChartBuilder {
     private int seriesCount;
 
     private boolean compressRange;
+    private boolean drawLabels;
+
+    private HashMap<String, Integer> takenNames;
 
     public ChartBuilder(String title) {
         this(title, UnitType.CELSIUS);
@@ -60,6 +66,8 @@ public class ChartBuilder {
         this.dataset = new DefaultCategoryDataset();
         this.compressRange = false;
         this.position = CategoryLabelPositions.STANDARD;
+        this.drawLabels = true;
+        takenNames = new HashMap<>();
     }
 
     public ChartBuilder smallDataset() {
@@ -74,20 +82,25 @@ public class ChartBuilder {
 
     public ChartBuilder hugeDataset() {
         position = CategoryLabelPositions.UP_90;
+        this.drawLabels = false; //To prevent them from getting crammed together
         return this;
     }
 
     public ChartCompletion barchart() {
-        BarRenderer renderer = new BarRenderer();
+
+
+        BarRenderer renderer = new TitledBarRenderer();
         renderer.setItemMargin(0);
         renderer.setDrawBarOutline(true);
         renderer.setDefaultOutlinePaint(Color.BLACK);
         renderer.setDefaultOutlineStroke(new BasicStroke());
         renderer.setShadowVisible(false);
         renderer.setBarPainter(new StandardBarPainter());
-        renderer.setDefaultItemLabelsVisible(true);
+        renderer.setDefaultItemLabelsVisible(drawLabels);
         renderer.setDefaultSeriesVisible(true);
         renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+
+
 
         this.renderer = renderer;
 
@@ -96,15 +109,14 @@ public class ChartBuilder {
     }
 
     public ChartCompletion linechart() {
-        LineAndShapeRenderer renderer = new LineAndShapeRenderer();
+        LineAndShapeRenderer renderer = new TitledLineAndShapeRenderer();
         renderer.setItemMargin(0);
         renderer.setDefaultOutlinePaint(Color.WHITE);
         renderer.setDefaultOutlineStroke(new BasicStroke());
-        renderer.setDefaultItemLabelsVisible(true);
+        renderer.setDefaultItemLabelsVisible(drawLabels);
         renderer.setDefaultSeriesVisible(true);
         renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
         renderer.setDefaultShapesVisible(true);
-
 
         this.renderer = renderer;
         this.compressRange = true;
@@ -132,6 +144,16 @@ public class ChartBuilder {
     public class ChartCompletion {
 
         public ChartSeriesBuilder series(String seriesKey, Color seriesColor) {
+            //In the event of a name already being taken
+            if(takenNames.containsKey(seriesKey)) {
+                int existingcount = takenNames.get(seriesKey);
+                seriesKey = String.format("%s [%d]", seriesKey, ++existingcount);
+                takenNames.put(seriesKey, existingcount);
+            }
+            else {
+                takenNames.put(seriesKey, 1);
+            }
+
             renderer.setSeriesPaint(seriesCount++, seriesColor);
             return new ChartSeriesBuilder(seriesKey);
         }

@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("charts")
@@ -39,9 +40,14 @@ public class ResourceAccessController {
     RenderedChartRepository repository;
 
     @GetMapping("/{key}")
-    public ResponseEntity<InputStreamResource> download(@PathVariable("key") String key) throws SQLException, IOException {
+    public ResponseEntity<InputStreamResource> download(@PathVariable("key") String key) throws SQLException {
 
-        RenderedChartEntity entity = repository.findByResourceKey(key).get();
+        Optional<RenderedChartEntity> optional = repository.findByResourceKey(key);
+        if(optional.isEmpty()) {
+            return (ResponseEntity<InputStreamResource>) ResponseEntity.notFound();
+        }
+
+        RenderedChartEntity entity = optional.get();
 
         return ResponseEntity.ok()
                 .header("Content-Type",entity.getFormat().getMimeTypeString())

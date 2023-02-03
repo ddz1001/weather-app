@@ -103,7 +103,7 @@ public class ChartRenderer {
             chart = render(data, builder.barchart(), fmt);
         }
 
-        Dimension size = idealDimension(data);
+        Dimension size = idealDimension(data, options.getDisplayType());
 
         if(options.getContentType() == ContentGenerationType.SVG) {
             out.write( ChartGraphicsUtils.convertToSvg( chart, size ).getBytes(StandardCharsets.UTF_8) );
@@ -131,11 +131,36 @@ public class ChartRenderer {
     }
 
     private static String formatCityName(CityInfo info) {
-        return String.format("%s, %s", info.getCityName(), info.getCountry().getTwoLetterCode());
+        return String.format("%s, %s %s", info.getCityName(), info.getAdministrativeRegion(), info.getCountry().getTwoLetterCode());
     }
 
-    private static Dimension idealDimension(ChartData data) {
-        return new Dimension(1000, 500);
+    private static Dimension idealDimension(ChartData data, ChartStyling styling) {
+        int columnFactor = 1;
+        int columnPx;
+
+        int widthFactor = 1;
+        int widthPx;
+
+        if(styling == ChartStyling.BAR) {
+            columnPx = 70;
+            widthPx = 50;
+        }
+        else {
+            columnPx = 25;
+            widthPx = 10;
+        }
+
+        if(data.getData().size() > 2) {
+            columnFactor = data.getData().size();
+        }
+
+        if(data.getData().get(0).getRight().size() > 12) {
+            widthFactor = data.getData().get(0).getRight().size();
+        }
+
+        int extra = (columnFactor * columnPx) + (widthFactor * widthPx);
+
+        return new Dimension(1000 + extra, 500);
     }
 
     private static int count(ChartData data) {

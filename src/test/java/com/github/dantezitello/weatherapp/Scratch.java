@@ -16,23 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.dantezitello.weatherapp.common;
+package com.github.dantezitello.weatherapp;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-public enum ChartStyling {
+@SpringBootTest
+public class Scratch {
 
-    @JsonProperty("line") LINE("Line"),
-    @JsonProperty("bar")  BAR("Bar");
+    @Autowired
+    ObjectMapper mapper;
 
-    private final String styleName;
+    @Test
+    public void ex() {
 
-    ChartStyling(String styleName) {
-        this.styleName = styleName;
     }
 
-    public String getStyleName() {
-        return styleName;
-    }
 
 }

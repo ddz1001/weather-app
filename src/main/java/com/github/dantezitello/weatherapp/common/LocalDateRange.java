@@ -52,6 +52,13 @@ public class LocalDateRange {
         return new LocalDateRange(start, end);
     }
 
+    @Override
+    public String toString() {
+        return "LocalDateRange{" +
+                "start=" + start +
+                ", end=" + end +
+                '}';
+    }
 }
 
 

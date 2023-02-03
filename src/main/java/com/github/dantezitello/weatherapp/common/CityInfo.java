@@ -55,4 +55,13 @@ public class CityInfo {
     public void setAdministrativeRegion(String administrativeRegion) {
         this.administrativeRegion = administrativeRegion;
     }
+
+    @Override
+    public String toString() {
+        return "CityInfo{" +
+                "cityName='" + cityName + '\'' +
+                ", country=" + country +
+                ", administrativeRegion='" + administrativeRegion + '\'' +
+                '}';
+    }
 }

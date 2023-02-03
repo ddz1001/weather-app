@@ -207,7 +207,7 @@ public class WeatherResultAggregation {
 
             decimals.clear();
 
-            return sum.divide(total, new MathContext(2, RoundingMode.CEILING));
+            return sum.divide(total, 1, RoundingMode.HALF_UP);
         }
     }
 

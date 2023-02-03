@@ -65,4 +65,13 @@ public class RecordedAverage {
     public static RecordedAverage record(String value, UnitType measurement, LocalDate date) {
         return new RecordedAverage( LocalDateRange.of(date), new BigDecimal(value), measurement );
     }
+
+    @Override
+    public String toString() {
+        return "RecordedAverage{" +
+                "interval=" + interval +
+                ", temperature=" + temperature +
+                ", measurement=" + measurement +
+                '}';
+    }
 }

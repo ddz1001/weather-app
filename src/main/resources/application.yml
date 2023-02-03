@@ -2,3 +2,6 @@
 meteo-api:
   geolocator-url: https://geocoding-api.open-meteo.com/v1/search
   history-url: https://archive-api.open-meteo.com/v1/archive
+
+server:
+  port: 8080

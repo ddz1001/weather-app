@@ -24,12 +24,14 @@ import java.util.Random;
 public class ColorUtils {
 
     static final Color[] COLORS = {
-            Color.BLUE,
-            Color.BLACK,
-            Color.CYAN,
-            Color.GREEN,
-            Color.LIGHT_GRAY,
-            Color.YELLOW
+            new Color(102, 179, 255),
+            new Color(102, 204, 102),
+            new Color(255, 133, 102),
+            new Color(255, 204, 102),
+            new Color(217, 179, 255),
+            new Color(163, 163, 194),
+            new Color(217, 217, 217),
+            new Color(255, 153, 230)
     };
 
 
